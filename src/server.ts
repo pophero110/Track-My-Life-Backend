@@ -1,5 +1,5 @@
 import app from './app';
-import { connectDatabase } from './services/db';
+import { connectDatabase } from './utils/db';
 async function start() {
 	await connectDatabase();
 	app.listen(process.env.PORT, () => {

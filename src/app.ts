@@ -10,6 +10,8 @@ app.use(bodyParser.json());
 
 // Setup Routing
 import userRoute from './controllers/user';
+import sessionRoute from './controllers/session';
+app.use('/api/v1/sessions', sessionRoute);
 app.use('/api/v1/users', userRoute);
 
 export default app;

@@ -4,6 +4,7 @@ declare global {
 			DATABASE_URL: string;
 			TEST_DATABASE_URL: string;
 			PORT?: string;
+			NODE_SECRET_KEY: string;
 		}
 	}
 }
