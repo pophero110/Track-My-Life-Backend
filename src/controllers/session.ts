@@ -18,6 +18,7 @@ const sessionRoute = express.Router();
     @response.body {
         sessionToken: string
     }
+	
 	Unsuccessful response:
 	@response.status 400
 	@response.body {
