@@ -22,7 +22,7 @@ const sessionRoute = express.Router();
 	Unsuccessful response:
 	@response.status 400
 	@response.body {
-		error: string
+		error: 'Invalid email' | 'Invalid password'
 	}
 */
 
@@ -37,9 +37,11 @@ sessionRoute.post('/', async (req, res) => {
 				sessionToken: session.sessionToken,
 			});
 		} else {
+			console.log('Invalid password', { user, email, password });
 			res.status(400).json({ error: 'Invalid password' });
 		}
 	} else {
+		console.log('Invalid email', { user, email, password });
 		res.status(400).json({ error: 'Invalid email' });
 	}
 });
@@ -53,6 +55,16 @@ sessionRoute.post('/', async (req, res) => {
 
 	Unsuccessful response:
 	@response.status 400
+	@response.body {
+		error: string
+	}
+	
+	@middleware authenticateJWT
+	unauthorized response:
+	@response.status 401
+	@response.body {
+		error: string
+	}
 */
 
 sessionRoute.delete('/', authenticateJWT, async (req, res) => {
@@ -60,7 +72,7 @@ sessionRoute.delete('/', authenticateJWT, async (req, res) => {
 		await destorySession((req as ICustomRequest).token);
 		res.sendStatus(204);
 	} catch (error) {
-		res.status(400).json({ error: 'Invalid session token' });
+		res.sendStatus(400);
 	}
 });
 
