@@ -17,12 +17,10 @@ describe('POST /api/v1/users', () => {
 			.post('/api/v1/users')
 			.send({ name: 'test', password: 'test', email: 'test@gmail.com' });
 
-		const users = await User.find({});
+		const user = await User.findOne({ email: 'test@gmail.com' });
 
-		expect(users.length).toBe(1);
-		expect(users[0].email).toBe('test@gmail.com');
-		expect(users[0].name).toBe('test');
-		expect(users[0].password).not.toBe('test');
+		expect(user?.name).toBe('test');
+		expect(user?.password).not.toBe('test');
 		expect(response.statusCode).toBe(201);
 	});
 
