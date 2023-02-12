@@ -5,6 +5,7 @@ const userRoute = express.Router();
 
 /* 
 	Sign up a user
+	@req.content-type application/json
 	@req.body	email
 	@req.body	password
 	@req.body	name
