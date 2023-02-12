@@ -8,10 +8,18 @@ export interface IUser {
 	password: string;
 }
 
+const EmailValidator = (email: string) => {
+	return /\S+@\S+\.\S+/.test(email);
+};
 // 2. Create a Schema corresponding to the document interface.
 const userSchema = new Schema<IUser>({
 	name: { type: String, required: true },
-	email: { type: String, required: true, unique: true },
+	email: {
+		type: String,
+		required: true,
+		unique: true,
+		validate: [EmailValidator, 'Please enter a valid email address.'],
+	},
 	password: { type: String, required: true },
 });
 

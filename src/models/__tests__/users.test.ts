@@ -89,3 +89,18 @@ test('password must be hashed before saved', async () => {
 		expect(result).toBe(true);
 	});
 });
+
+test('email must be valid', async () => {
+	const user = new User({
+		name: 'test',
+		email: 'test',
+		password: 'test',
+	});
+
+	const error = await user.save().catch((error) => error);
+
+	expect(error instanceof mongoose.Error.ValidationError).toBeTruthy;
+	expect(error.errors.email.message).toBe(
+		'Please enter a valid email address.'
+	);
+});
