@@ -12,7 +12,6 @@ const userRoute = express.Router();
 
 	Successful response:
 	@response.status 201
-	@response.body {}
 	
 	Unsuccessful response:
 	@response.status 400
