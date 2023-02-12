@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import { generateToken } from '../utils/jwt';
 // 1. Create an interface representing a document in MongoDB.
 interface ISession {
 	_id: string;
