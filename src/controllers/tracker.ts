@@ -47,7 +47,7 @@ export async function postHandler(req: express.Request, res: express.Response) {
 
 trackerRoute.post('/', authenticateJWT, postHandler);
 
-/*
+/**
  * @name delete tracker
  * @route DELETE /trackers/:id
  * @successStatus 204 - tracker deleted
