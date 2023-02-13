@@ -1,4 +1,9 @@
 {
-	"entryPoints": ["src/controllers/session.ts", "src/controllers/user.ts"],
+	"entryPoints": [
+		"src/controllers/session.ts",
+		"src/controllers/user.ts",
+		"scr/controllers/tracker.ts",
+		"src/controllers/trackerLog.ts"
+	],
 	"out": "docs"
 }

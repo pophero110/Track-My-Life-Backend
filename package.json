@@ -6,9 +6,9 @@
 	"scripts": {
 		"start": "node ./src/server.ts",
 		"dev": "nodemon ./src/server.ts",
-		"test": "jest",
+		"test": "jest --runInBand",
 		"lint": "eslint .",
-		"docs": "typedoc --out docs"
+		"docs": "typedoc"
 	},
 	"author": "",
 	"license": "ISC",
