@@ -3,28 +3,21 @@ import { User } from '../models/users';
 import mongoose from 'mongoose';
 const userRoute = express.Router();
 
-/* 
-	Sign up a user
-	@req.content-type application/json
-	@req.body	email
-	@req.body	password
-	@req.body	name
-
-	Successful response:
-	@response.status 201
-	
-	Unsuccessful response:
-	@response.status 400
-	@response.body.error string
-*/
-
-userRoute.post('/', async (req, res) => {
+/**
+ * @api post /users
+ * @requestBody email: string, password: string, name: string
+ * @status 400 Bad Request, 201 Created
+ * @response error: string
+ */
+export async function postHandler(req: express.Request, res: express.Response) {
 	const { email, password, name } = req.body;
 	try {
 		const user = new User({
 			email,
 			password,
 			name,
+			createdAt: new Date(),
+			updatedAt: new Date(),
 		});
 		await user.save();
 		res.sendStatus(201);
@@ -34,6 +27,8 @@ userRoute.post('/', async (req, res) => {
 			res.status(400).json({ error: error.message });
 		}
 	}
-});
+}
+
+userRoute.post('/', postHandler);
 
 export default userRoute;

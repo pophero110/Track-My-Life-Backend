@@ -7,73 +7,57 @@ import { authenticateJWT } from '../middleware/authenticate';
 import type { ICustomRequest } from '../middleware/authenticate';
 const sessionRoute = express.Router();
 
-/*
-	Sign in a user and return a session token
-	@req.content-type application/json
-    @req.body	email
-    @req.body	password
-
-	Successfull response:
-    @response.status 201
-    @response.body {
-        sessionToken: string
-    }
-	
-	Unsuccessful response:
-	@response.status 400
-	@response.body {
-		error: 'Invalid email' | 'Invalid password'
-	}
-*/
-
-sessionRoute.post('/', async (req, res) => {
+/**
+ * @api post /sessions
+ * @requestBody email: string, password: string
+ * @response user: { name: string, email: string, trackers: string[] }, sessionToken: string
+ * @status 400 Bad Request, 201 Created
+ * @response error: string
+ */
+export async function postHandler(req: express.Request, res: express.Response) {
 	const { email, password } = req.body;
-	const user: IUser | null = await User.findOne({ email });
+	const user: IUser | null = await User.findOne({ email }).exec();
 	if (user) {
 		const passwordMatch = await checkPassword(password, user.password);
 		if (passwordMatch) {
 			const session = await createSession(user._id);
 			res.status(201).json({
+				user: {
+					name: user.name,
+					email: user.email,
+					trackers: user.trackers,
+				},
 				sessionToken: session.sessionToken,
 			});
 		} else {
-			console.log('Invalid password', { user, email, password });
+			console.log('Invalid password', { email });
 			res.status(400).json({ error: 'Invalid password' });
 		}
 	} else {
-		console.log('Invalid email', { user, email, password });
+		console.log('Invalid email', { email });
 		res.status(400).json({ error: 'Invalid email' });
 	}
-});
+}
 
-/* 
-	Sign out a user and destroy the session token
-	@req.headers.authorization Bearer <sessionToken>
-	
-	Successful response:
-	@response.status 204
+sessionRoute.post('/', postHandler);
 
-	Unsuccessful response:
-	@response.status 400
-	@response.body {
-		error: string
-	}
-	
-	@middleware authenticateJWT
-	unauthorized response:
-	@response.status 401
-	@response.body {
-		error: string
-	}
-*/
-
-sessionRoute.delete('/', authenticateJWT, async (req, res) => {
+/**
+ * @api delete /sessions
+ * @requestHeader authorization: string
+ * @status 400 Bad Request, 204 No Content
+ */
+export async function deleteHandler(
+	req: express.Request,
+	res: express.Response
+) {
 	try {
 		await destorySession((req as ICustomRequest).token);
 		res.sendStatus(204);
 	} catch (error) {
 		res.sendStatus(400);
 	}
-});
+}
+
+sessionRoute.delete('/', authenticateJWT, deleteHandler);
 
 export default sessionRoute;
