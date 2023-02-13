@@ -4,10 +4,12 @@ import mongoose from 'mongoose';
 const userRoute = express.Router();
 
 /**
- * @api post /users
+ * @name create user
+ * @route POST /users
  * @requestBody email: string, password: string, name: string
- * @status 400 Bad Request, 201 Created
- * @response error: string
+ * @successStatus 201 - user created
+ * @failureStatus 400 - invalid request body
+ * @responseBody error: string
  */
 export async function postHandler(req: express.Request, res: express.Response) {
 	const { email, password, name } = req.body;

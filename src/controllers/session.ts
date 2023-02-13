@@ -8,11 +8,13 @@ import type { ICustomRequest } from '../middleware/authenticate';
 const sessionRoute = express.Router();
 
 /**
- * @api post /sessions
+ * @name create session
+ * @route post /sessions
  * @requestBody email: string, password: string
  * @response user: { name: string, email: string, trackers: string[] }, sessionToken: string
- * @status 400 Bad Request, 201 Created
- * @response error: string
+ * @successStatus 201 - session created
+ * @failureStatus 400 - invalid request body
+ * @responseBody error: string
  */
 export async function postHandler(req: express.Request, res: express.Response) {
 	const { email, password } = req.body;
@@ -42,9 +44,11 @@ export async function postHandler(req: express.Request, res: express.Response) {
 sessionRoute.post('/', postHandler);
 
 /**
- * @api delete /sessions
+ * @name delete session
+ * @route delete /sessions
  * @requestHeader authorization: string
- * @status 400 Bad Request, 204 No Content
+ * @successStatus 204 - session deleted
+ * @failureStatus 400 - invalid request body
  */
 export async function deleteHandler(
 	req: express.Request,
