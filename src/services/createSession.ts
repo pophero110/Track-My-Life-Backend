@@ -7,6 +7,7 @@ export const createSession = async (userId: string) => {
 		userId,
 		sessionToken: generateToken({ userId }, defaultExpiresIn),
 		expires: new Date(Date.now() + defaultExpiresIn * 1000),
+		createdAt: new Date(),
 	});
 	await session.save();
 	return session;

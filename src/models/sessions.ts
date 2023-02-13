@@ -5,6 +5,7 @@ interface ISession {
 	userId: string;
 	sessionToken: string;
 	expires: Date;
+	createdAt: Date;
 }
 
 const DateValidator = (value: Date) => {
@@ -23,6 +24,7 @@ const sessionSchema = new Schema<ISession>({
 			'Data is in the past. Please enter a valid date.',
 		],
 	},
+	createdAt: { type: Date, required: true },
 });
 
 // 3. Create a Model.
