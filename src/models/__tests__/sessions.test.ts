@@ -60,3 +60,19 @@ test('expires can not be in the past', async () => {
 		'Data is in the past. Please enter a valid date.'
 	);
 });
+
+test('createdAt can not be empty', async () => {
+	const session = new Session({
+		userId: 'test',
+		sessionToken: 'test',
+		expires: new Date(Date.now() + 1000),
+		createdAt: null,
+	});
+
+	const error = await session.save().catch((error) => error);
+
+	expect(error instanceof mongoose.Error.ValidationError).toBeTruthy;
+	expect(error.errors.createdAt.message).toBe(
+		'Path `createdAt` is required.'
+	);
+});

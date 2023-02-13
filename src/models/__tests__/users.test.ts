@@ -1,23 +1,17 @@
 import mongoose from 'mongoose';
-import { setup, teardown } from '../../setup-teardown';
 import { User } from '../users';
+import { Tracker } from '../trackers';
 import bcrypt from 'bcrypt';
 
 // https://mongoosejs.com/docs/api.html#error_Error-ValidationError
-
-beforeAll(async () => {
-	await setup();
-});
-
-afterAll(async () => {
-	await teardown();
-});
 
 test('name can not be empty', async () => {
 	const user = new User({
 		name: '',
 		email: 'test@gmail.com',
 		password: 'test',
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	});
 
 	const error = await user.save().catch((error) => error);
@@ -31,6 +25,8 @@ test('email can not be empty', async () => {
 		name: 'test',
 		email: '',
 		password: 'test',
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	});
 
 	const error = await user.save().catch((error) => error);
@@ -44,6 +40,8 @@ test('password can not be empty', async () => {
 		name: 'test',
 		email: 'test@gmail.com',
 		password: '',
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	});
 
 	const error = await user.save().catch((error) => error);
@@ -58,6 +56,8 @@ test('email must be unique', async () => {
 		name: 'test',
 		email,
 		password: 'test',
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	});
 
 	await user.save();
@@ -66,6 +66,8 @@ test('email must be unique', async () => {
 		name: 'test',
 		email,
 		password: 'test',
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	});
 
 	const error = await duplicateUser.save().catch((error) => error);
@@ -80,6 +82,8 @@ test('password must be hashed before saved', async () => {
 		name: 'test',
 		email: 'test2@gmail.com',
 		password: 'test',
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	});
 
 	await user.save();
@@ -95,6 +99,8 @@ test('email must be valid', async () => {
 		name: 'test',
 		email: 'test',
 		password: 'test',
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	});
 
 	const error = await user.save().catch((error) => error);
@@ -103,4 +109,29 @@ test('email must be valid', async () => {
 	expect(error.errors.email.message).toBe(
 		'Please enter a valid email address.'
 	);
+});
+
+test('add a tracker', async () => {
+	const user = new User({
+		name: 'test',
+		email: 'test5@gmail.com',
+		password: 'test',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	});
+
+	const tracker = new Tracker({
+		name: 'test',
+		type: 'number',
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	});
+
+	user.trackers.push(tracker);
+
+	await user.save();
+
+	expect(tracker.name).toBe('test');
+	expect(tracker.type).toBe('number');
+	expect(user.trackers[0]._id).toBe(tracker._id);
 });
