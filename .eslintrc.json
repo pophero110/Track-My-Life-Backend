@@ -12,5 +12,6 @@
 		"sourceType": "module",
 		"project": ["./tsconfig.json"]
 	},
-	"rules": {}
+	"rules": {},
+	"ignorePatterns": ["node_modules/", "docs/"]
 }
