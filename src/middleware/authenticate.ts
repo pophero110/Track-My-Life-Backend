@@ -6,7 +6,7 @@ interface IUserPayload {
 }
 
 export interface ICustomRequest extends Request {
-	user?: IUserPayload;
+	user: IUserPayload;
 	token: string;
 }
 export const authenticateJWT = (
