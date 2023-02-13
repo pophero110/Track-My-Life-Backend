@@ -102,9 +102,5 @@
 	},
 	"ts-node": {
 		"files": true
-	},
-	"typedocOptions": {
-		"entryPoints": ["./app.ts"],
-		"out": "docs"
 	}
 }

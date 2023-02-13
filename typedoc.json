@@ -1,0 +1,4 @@
+{
+	"entryPoints": ["src/controllers/session.ts", "src/controllers/user.ts"],
+	"out": "docs"
+}
