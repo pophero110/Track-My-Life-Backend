@@ -1,29 +1,13 @@
 import request from 'supertest';
 import app from '../../app';
 import { Session } from '../../models/sessions';
-import { setup, teardown } from '../../setup-teardown';
 import { User } from '../../models/users';
-
-beforeAll(async () => {
-	await setup();
-});
-
-afterAll(async () => {
-	await teardown();
-});
+import { createFakeUser } from '../../models/fatories/users';
 
 describe('POST /api/v1/sessions', () => {
-	const user = {
-		email: 'test3@gmail.com',
-		password: 'password',
-		name: 'Test User',
-	};
+	const user = createFakeUser();
 	beforeAll(async () => {
 		await User.create(user);
-	});
-
-	afterAll(async () => {
-		await Session.deleteMany({});
 	});
 
 	it('should return 201 with a session token', async () => {
@@ -63,11 +47,7 @@ describe('POST /api/v1/sessions', () => {
 });
 
 describe('DELETE /api/v1/sessions', () => {
-	const user = {
-		email: 'test4@gmail.com',
-		password: 'password',
-		name: 'Test User',
-	};
+	const user = createFakeUser();
 	beforeAll(async () => {
 		await User.create(user);
 	});

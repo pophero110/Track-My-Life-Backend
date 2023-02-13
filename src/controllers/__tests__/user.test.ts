@@ -1,15 +1,6 @@
 import request from 'supertest';
 import app from '../../app';
 import { User } from '../../models/users';
-import { setup, teardown } from '../../setup-teardown';
-
-beforeAll(async () => {
-	await setup();
-});
-
-afterAll(async () => {
-	await teardown();
-});
 
 describe('POST /api/v1/users', () => {
 	it('response 201', async () => {
