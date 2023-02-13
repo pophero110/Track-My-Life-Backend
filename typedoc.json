@@ -2,8 +2,8 @@
 	"entryPoints": [
 		"src/controllers/session.ts",
 		"src/controllers/user.ts",
-		"scr/controllers/tracker.ts",
-		"src/controllers/trackerLog.ts"
+		"src/controllers/trackerLog.ts",
+		"src/controllers/tracker.ts"
 	],
 	"out": "docs"
 }
