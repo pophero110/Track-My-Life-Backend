@@ -17,7 +17,7 @@ describe('POST /api/v1/trackers', () => {
 			.post('/api/v1/trackers')
 			.send({
 				name: 'test',
-				type: 'test',
+				type: 'time',
 			})
 			.set('Authorization', `Bearer ${token}`);
 
@@ -25,7 +25,7 @@ describe('POST /api/v1/trackers', () => {
 		expect(response.body).toEqual({
 			_id: expect.any(String),
 			name: 'test',
-			type: 'test',
+			type: 'time',
 			createdAt: expect.any(String),
 			updatedAt: expect.any(String),
 			logs: [],
@@ -51,7 +51,7 @@ describe('POST /api/v1/trackers', () => {
 			.post('/api/v1/trackers')
 			.send({
 				name: 'test',
-				type: 'test',
+				type: 'time',
 			})
 			.set('Accept', 'application/json');
 
@@ -67,7 +67,7 @@ describe('DELETE /api/v1/trackers/:id', () => {
 		const tracker = new Tracker({
 			_id: trackerId,
 			name: 'test',
-			type: 'test',
+			type: 'time',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		});
@@ -107,7 +107,7 @@ describe('PUT /api/v1/trackers/:id', () => {
 		const tracker = new Tracker({
 			_id: trackerId,
 			name: 'test',
-			type: 'test',
+			type: 'time',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		});
@@ -124,7 +124,7 @@ describe('PUT /api/v1/trackers/:id', () => {
 			.put('/api/v1/trackers/' + trackerId)
 			.send({
 				name: 'test2',
-				type: 'test2',
+				type: 'time',
 			})
 			.set('Authorization', `Bearer ${token}`);
 
@@ -132,7 +132,7 @@ describe('PUT /api/v1/trackers/:id', () => {
 
 		const user = await User.findById(userId);
 		expect(user?.trackers[0].name).toBe('test2');
-		expect(user?.trackers[0].type).toBe('test2');
+		expect(user?.trackers[0].type).toBe('time');
 	});
 
 	it('response 404', async () => {
@@ -140,7 +140,7 @@ describe('PUT /api/v1/trackers/:id', () => {
 			.put('/api/v1/trackers/' + 123)
 			.send({
 				name: 'test2',
-				type: 'test2',
+				type: 'time',
 			})
 			.set('Authorization', `Bearer ${token}`);
 
@@ -151,7 +151,7 @@ describe('PUT /api/v1/trackers/:id', () => {
 		const response = await request(app)
 			.put('/api/v1/trackers/' + trackerId)
 			.send({
-				name: 'test2',
+				name: 'time',
 			})
 			.set('Authorization', `Bearer ${token}`);
 

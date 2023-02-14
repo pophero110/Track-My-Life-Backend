@@ -4,7 +4,7 @@ import { ITrackerLog } from '../trackerLogs';
 test('name can not be empty', async () => {
 	const tracker = new Tracker({
 		name: '',
-		type: 'number',
+		type: 'time',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	});
@@ -30,7 +30,7 @@ test('type can not be empty', async () => {
 test('createdAt can not be empty', async () => {
 	const tracker = new Tracker({
 		name: 'Test',
-		type: 'number',
+		type: 'time',
 		createdAt: '',
 		updatedAt: new Date(),
 	});
@@ -45,7 +45,7 @@ test('createdAt can not be empty', async () => {
 test('updatedAt can not be empty', async () => {
 	const tracker = new Tracker({
 		name: 'Test',
-		type: 'number',
+		type: 'time',
 		createdAt: new Date(),
 		updatedAt: '',
 	});
@@ -60,7 +60,7 @@ test('updatedAt can not be empty', async () => {
 test('add trackeLog', async () => {
 	const tracker = new Tracker({
 		name: 'Test',
-		type: 'number',
+		type: 'time',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	});
@@ -78,7 +78,7 @@ test('add trackeLog', async () => {
 test('remove trackeLog', async () => {
 	const tracker = new Tracker({
 		name: 'Test',
-		type: 'number',
+		type: 'time',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	});

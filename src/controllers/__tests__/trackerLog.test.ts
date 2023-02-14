@@ -15,7 +15,7 @@ describe('POST /api/v1/trackers/:id/logs', () => {
 		const tracker = new Tracker({
 			_id: trackerId,
 			name: 'test',
-			type: 'test',
+			type: 'time',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 		});
@@ -95,7 +95,7 @@ describe('Delete /api/v1/trackers/:id/logs/:logId', () => {
 		const tracker = new Tracker({
 			_id: trackerId,
 			name: 'test',
-			type: 'test',
+			type: 'time',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 			logs: [

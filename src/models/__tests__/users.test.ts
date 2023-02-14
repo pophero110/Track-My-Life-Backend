@@ -122,7 +122,7 @@ test('add a tracker', async () => {
 
 	const tracker = new Tracker({
 		name: 'test',
-		type: 'number',
+		type: 'time',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	});
@@ -132,6 +132,6 @@ test('add a tracker', async () => {
 	await user.save();
 
 	expect(tracker.name).toBe('test');
-	expect(tracker.type).toBe('number');
+	expect(tracker.type).toBe('time');
 	expect(user.trackers[0]._id).toBe(tracker._id);
 });
