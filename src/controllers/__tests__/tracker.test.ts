@@ -161,3 +161,61 @@ describe('PUT /api/v1/trackers/:id', () => {
 		});
 	});
 });
+
+describe.only('GET /api/v1/trackers', () => {
+	let token = '';
+	beforeAll(async () => {
+		const tracker = new Tracker({
+			_id: new mongoose.Types.ObjectId(),
+			name: 'test',
+			type: 'time',
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		});
+		const tracker2 = new Tracker({
+			_id: new mongoose.Types.ObjectId(),
+			name: 'test2',
+			type: 'time',
+			createdAt: new Date(),
+			updatedAt: new Date(),
+		});
+		const user = await User.create({
+			...createFakeUser(),
+			_id: new mongoose.Types.ObjectId(),
+			trackers: [tracker, tracker2],
+		});
+		token = generateToken({ userId: user._id }, defaultExpiresIn);
+	});
+
+	it('response 200', async () => {
+		const response = await request(app)
+			.get('/api/v1/trackers')
+			.set('Authorization', `Bearer ${token}`);
+
+		expect(response.status).toBe(200);
+		expect(response.body).toEqual([
+			{
+				_id: expect.any(String),
+				name: 'test',
+				type: 'time',
+				createdAt: expect.any(String),
+				updatedAt: expect.any(String),
+				logs: [],
+			},
+			{
+				_id: expect.any(String),
+				name: 'test2',
+				type: 'time',
+				createdAt: expect.any(String),
+				updatedAt: expect.any(String),
+				logs: [],
+			},
+		]);
+	});
+
+	it('response 401', async () => {
+		const response = await request(app).get('/api/v1/trackers');
+
+		expect(response.status).toBe(401);
+	});
+});

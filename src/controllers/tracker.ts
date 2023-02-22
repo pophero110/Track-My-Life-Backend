@@ -144,3 +144,32 @@ export async function putHandler(req: express.Request, res: express.Response) {
 trackerRoute.put('/:id', authenticateJWT, putHandler);
 
 export default trackerRoute;
+
+/**
+ * @name get trackers
+ * @route GET /trackers
+ * @successStatus 200 - trackers found
+ * @responseBody {_id: string, name: string, type: string, createdAt: Date, updatedAt: Date}[],
+ * @failureStatus 401 - unauthorized
+ * @responseBody error: string
+ */
+
+export async function getHandler(req: express.Request, res: express.Response) {
+	try {
+		const user = await User.findById((req as ICustomRequest).user.userId);
+		if (!user) {
+			console.log('user not found', {
+				userId: (req as ICustomRequest).user.userId,
+			});
+			res.sendStatus(401);
+			return;
+		}
+
+		res.json(user.trackers);
+	} catch (error) {
+		console.log('getting trackers', { error });
+		res.sendStatus(400);
+	}
+}
+
+trackerRoute.get('/', authenticateJWT, getHandler);
