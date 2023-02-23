@@ -162,7 +162,7 @@ describe('PUT /api/v1/trackers/:id', () => {
 	});
 });
 
-describe.only('GET /api/v1/trackers', () => {
+describe('GET /api/v1/trackers', () => {
 	let token = '';
 	beforeAll(async () => {
 		const tracker = new Tracker({
