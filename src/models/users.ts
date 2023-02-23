@@ -31,8 +31,10 @@ const userSchema = new Schema<IUser>({
 });
 
 userSchema.pre('save', async function (next) {
-	this.password = await hashPassword(this.password);
-	next();
+	if (this.isNew) {
+		this.password = await hashPassword(this.password);
+		next();
+	}
 });
 
 // 3. Create a Model.

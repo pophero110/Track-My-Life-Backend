@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import { User } from '../users';
 import { Tracker } from '../trackers';
-import bcrypt from 'bcrypt';
-
+import { createFakeUser } from '../fatories/users';
+import { checkPassword } from '../../utils/bcrypt';
 // https://mongoosejs.com/docs/api.html#error_Error-ValidationError
 
 test('name can not be empty', async () => {
@@ -89,9 +89,7 @@ test('password must be hashed before saved', async () => {
 	await user.save();
 
 	expect(user.password).not.toBe('test');
-	bcrypt.compare('test', user.password, (_error, result) => {
-		expect(result).toBe(true);
-	});
+	expect(await checkPassword('test', user.password)).toBe(true);
 });
 
 test('email must be valid', async () => {
@@ -134,4 +132,17 @@ test('add a tracker', async () => {
 	expect(tracker.name).toBe('test');
 	expect(tracker.type).toBe('time');
 	expect(user.trackers[0]._id).toBe(tracker._id);
+});
+
+test('update user name skip pre-save hook', async () => {
+	const fakeUser = createFakeUser();
+	const user = new User(fakeUser);
+	await user.save();
+
+	const newName = 'new name';
+	user.name = 'new name';
+	await user.save();
+
+	expect(user.name).toBe(newName);
+	expect(await checkPassword(fakeUser.password, user.password)).toBe(true);
 });
