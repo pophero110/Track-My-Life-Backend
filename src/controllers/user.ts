@@ -25,9 +25,17 @@ export async function postHandler(req: express.Request, res: express.Response) {
 		res.sendStatus(201);
 	} catch (error) {
 		if (error instanceof mongoose.Error.ValidationError) {
-			// TODO: format error message
 			res.status(400).json({ error: error.message });
+			return;
 		}
+		// MongoServerError
+		if ((error as { code: number }).code === 11000) {
+			res.status(400).json({ error: 'Email already exists' });
+			return;
+		}
+		// TODO: log error to logging service
+		console.log('Error creating user', { error });
+		res.status(400).json({ error: 'Something went wrong' });
 	}
 }
 

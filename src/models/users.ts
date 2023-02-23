@@ -21,7 +21,7 @@ const userSchema = new Schema<IUser>({
 	email: {
 		type: String,
 		required: true,
-		unique: true,
+		index: { unique: true },
 		validate: [EmailValidator, 'Please enter a valid email address.'],
 	},
 	password: { type: String, required: true },
