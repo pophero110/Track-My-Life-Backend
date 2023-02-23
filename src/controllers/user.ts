@@ -11,6 +11,8 @@ const userRoute = express.Router();
  * @failureStatus 400 - invalid request body
  * @responseBody error: string
  */
+
+//TODO: return session token after successful user creation
 export async function postHandler(req: express.Request, res: express.Response) {
 	const { email, password, name } = req.body;
 	try {
