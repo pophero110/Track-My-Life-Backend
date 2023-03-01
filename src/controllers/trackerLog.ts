@@ -49,7 +49,7 @@ export async function postHandler(req: express.Request, res: express.Response) {
 
 		await user.save();
 
-		res.status(201).json(trackerLog);
+		res.status(201).json(user.trackers);
 	} catch (error) {
 		if (error instanceof mongoose.Error.ValidationError) {
 			res.status(400).json({ error: error.message });
@@ -62,7 +62,7 @@ trackerLogRoute.post('/:id/logs', authenticateJWT, postHandler);
 /**
  * @name delete trackerLog
  * @route DELETE /trackers/:id/logs/:logId
- * @successStatus 204 - trackerLog deleted
+ * @successStatus 200 - trackerLog deleted
  * @failureStatus 401 - unauthorized
  * @failureStatus 404 - tracker not found
  * @failureStatus 404 - trackerLog not found
@@ -88,7 +88,7 @@ export async function deleteHandler(
 
 		if (!tracker) {
 			console.log('tracker not found', { id });
-			res.sendStatus(404);
+			res.status(404).json({ error: 'tracker not found' });
 			return;
 		}
 
@@ -98,7 +98,7 @@ export async function deleteHandler(
 
 		if (!trackerLog) {
 			console.log('trackerLog not found', { logId });
-			res.sendStatus(404);
+			res.status(404).json({ error: 'trackerLog not found' });
 			return;
 		}
 
@@ -108,7 +108,7 @@ export async function deleteHandler(
 
 		await user.save();
 
-		res.sendStatus(204);
+		res.status(200).json(user.trackers);
 	} catch (error) {
 		if (error instanceof mongoose.Error.ValidationError) {
 			res.status(400).json({ error: error.message });

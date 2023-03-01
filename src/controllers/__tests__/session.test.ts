@@ -17,12 +17,15 @@ describe('POST /api/v1/sessions', () => {
 		});
 
 		expect(response.status).toBe(201);
-		expect(response.body.sessionToken).toBeTruthy();
+		expect(response.body.user.name).toBe(user.name);
+		expect(response.body.user.trackers).toEqual(user.trackers);
+
+		const sessionToken = response.body.sessionToken;
 
 		const session = await Session.findOne({
 			sessionToken: response.body.sessionToken,
 		});
-		expect(session?.sessionToken).toBeTruthy();
+		expect(session?.sessionToken).toBe(sessionToken);
 	});
 
 	it('should return 400 with an error message', async () => {

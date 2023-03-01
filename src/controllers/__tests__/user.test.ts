@@ -14,6 +14,7 @@ describe('POST /api/v1/users', () => {
 		expect(user?.name).toBe('test');
 		expect(user?.password).not.toBe('test');
 		expect(response.statusCode).toBe(201);
+		expect(response.body).toStrictEqual({ name: 'test' });
 	});
 
 	it('response 400', async () => {

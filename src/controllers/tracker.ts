@@ -25,7 +25,7 @@ export async function getHandler(req: express.Request, res: express.Response) {
 			return;
 		}
 
-		res.json(user.trackers);
+		res.status(200).json(user.trackers);
 	} catch (error) {
 		console.log('getting trackers', { error });
 		res.sendStatus(400);
@@ -112,7 +112,7 @@ export async function deleteHandler(
 		}
 
 		await user.save();
-		res.sendStatus(204);
+		res.status(200).json(user.trackers);
 	} catch (error) {
 		console.log('deleting tracker', { error });
 		res.sendStatus(500);

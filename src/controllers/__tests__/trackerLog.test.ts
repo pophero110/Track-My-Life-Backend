@@ -36,11 +36,22 @@ describe('POST /api/v1/trackers/:id/logs', () => {
 			.set('Authorization', `Bearer ${token}`);
 
 		expect(response.status).toBe(201);
-		expect(response.body).toEqual({
-			_id: expect.any(String),
-			value: 1,
-			createdAt: expect.any(String),
-		});
+		expect(response.body).toEqual([
+			{
+				_id: expect.any(String),
+				createdAt: expect.any(String),
+				updatedAt: expect.any(String),
+				name: 'test',
+				type: 'time',
+				logs: [
+					{
+						_id: expect.any(String),
+						createdAt: expect.any(String),
+						value: 1,
+					},
+				],
+			},
+		]);
 
 		const user = await User.findById(userId);
 		expect(user?.trackers[0].logs[0].value).toBe(1);
@@ -114,12 +125,22 @@ describe('Delete /api/v1/trackers/:id/logs/:logId', () => {
 		});
 		token = generateToken({ userId: user._id }, defaultExpiresIn);
 	});
-	it('response 204', async () => {
+	it('response 200', async () => {
 		const response = await request(app)
 			.delete(`/api/v1/trackers/${trackerId}/logs/${logId}`)
 			.set('Authorization', `Bearer ${token}`);
 
-		expect(response.status).toBe(204);
+		expect(response.status).toBe(200);
+		expect(response.body).toEqual([
+			{
+				_id: expect.any(String),
+				createdAt: expect.any(String),
+				updatedAt: expect.any(String),
+				name: 'test',
+				type: 'time',
+				logs: [],
+			},
+		]);
 
 		const user = await User.findById(userId);
 		expect(user?.trackers[0].logs).toEqual([]);

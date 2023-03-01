@@ -79,12 +79,13 @@ describe('DELETE /api/v1/trackers/:id', () => {
 		token = generateToken({ userId: user._id }, defaultExpiresIn);
 	});
 
-	it('response 204', async () => {
+	it('response 200', async () => {
 		const response = await request(app)
 			.delete('/api/v1/trackers/' + trackerId)
 			.set('Authorization', `Bearer ${token}`);
 
-		expect(response.status).toBe(204);
+		expect(response.status).toBe(200);
+		expect(response.body).toEqual([]);
 
 		const user = await User.findById(userId);
 		expect(user?.trackers.length).toBe(0);

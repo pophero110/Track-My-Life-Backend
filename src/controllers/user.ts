@@ -24,7 +24,9 @@ export async function postHandler(req: express.Request, res: express.Response) {
 			updatedAt: new Date(),
 		});
 		await user.save();
-		res.sendStatus(201);
+		res.status(201).json({
+			name: user.name,
+		});
 	} catch (error) {
 		if (error instanceof mongoose.Error.ValidationError) {
 			res.status(400).json({ error: error.message });

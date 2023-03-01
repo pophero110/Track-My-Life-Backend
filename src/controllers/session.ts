@@ -26,7 +26,6 @@ export async function postHandler(req: express.Request, res: express.Response) {
 			res.status(201).json({
 				user: {
 					name: user.name,
-					email: user.email,
 					trackers: user.trackers,
 				},
 				sessionToken: session.sessionToken,
