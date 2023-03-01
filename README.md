@@ -1,3 +1,2 @@
-# Track-My-Life-Backend
-Tech stack
+# Tech stack
 MongoDB, Nodejs, Expressjs, Jest, Eslint, Typescript
