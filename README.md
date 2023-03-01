@@ -1,2 +1,2 @@
 # Tech stack
-MongoDB, Nodejs, Expressjs, Jest, Eslint, Typescript
+MongoDB, Nodejs, Expressjs, Jest, Eslint, Typescript, Typedoc
